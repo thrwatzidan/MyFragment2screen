@@ -1,10 +1,16 @@
 package com.example.thrwat_zidan.myfragment;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
+
+    public static final String FRAGMENT_TAG = "fragment_tag";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -12,17 +18,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void addFragment(View view) {
-        FragmentOne fragmentOne=new FragmentOne();
+    public void addFragmentOne(View view) {
+        FragmentOne fragment = new FragmentOne();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.placeholder,fragmentOne)
+                .replace(R.id.placeholder, fragment, FRAGMENT_TAG)
                 .commit();
     }
 
-    public void addFragment2(View view) {
-        FragmentTwo fragmentOne=new FragmentTwo();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.placeholder,fragmentOne)
-                .commit();
+    public void updateFragment(View view) {
+        FragmentOne fragment = (FragmentOne) getSupportFragmentManager()
+                .findFragmentByTag(FRAGMENT_TAG);
+        if (fragment != null) {
+            fragment.updateFragment("Hello from the activity!");
+        } else {
+            Toast.makeText(this, "Couldn't find the fragment", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
